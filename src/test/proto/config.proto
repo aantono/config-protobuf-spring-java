@@ -1,0 +1,13 @@
+package test.config;
+
+option java_package = "ws.antonov.config.test.proto.model";
+option java_outer_classname = "TestProtos";
+option java_multiple_files = true;
+
+option optimize_for = SPEED;
+
+message FlatConfigObject {
+    optional int32 timeout = 1;
+    optional bool validate = 2;
+    optional string system_code = 3;
+}
