@@ -5,10 +5,10 @@ import com.google.protobuf.Message;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.web.util.UriTemplate;
 import ws.antonov.config.api.consumer.ConfigParamsBuilder;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * @author aantonov
@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class ResourceConfigProvider extends AbstractConfigProvider {
     public static final String PATH_SEPARATOR = System.getProperty("file.separator");
-    private String basePath;
+    private UriTemplate template;
     private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 
     public ResourceConfigProvider() {
@@ -26,11 +26,17 @@ public class ResourceConfigProvider extends AbstractConfigProvider {
         this("file://" + System.getProperty("user.dir", "."), registry);
     }
     public ResourceConfigProvider(String basePath) {
-        this(basePath, null);
+        this(basePath, "", null);
+    }
+    public ResourceConfigProvider(String basePath, String pattern) {
+        this(basePath, pattern, null);
     }
     public ResourceConfigProvider(String basePath, ExtensionRegistry registry) {
+        this(basePath, "", registry);
+    }
+    public ResourceConfigProvider(String basePath, String pattern, ExtensionRegistry registry) {
         super(registry);
-        this.basePath = basePath;
+        this.template = new UriTemplate(basePath + pattern);
     }
 
     public Message.Builder retrieveConfigData(Class<? extends Message> configClass, ConfigParamsBuilder.ConfigParamMap configParams) throws IOException {
@@ -58,11 +64,8 @@ public class ResourceConfigProvider extends AbstractConfigProvider {
     }
 
     public Resource computeResourceDestinationFromParams(ConfigParamsBuilder.ConfigParamMap configParams) {
-        StringBuilder builder = new StringBuilder(this.basePath);
-        for (Map.Entry<String, Object> o : configParams.entrySet()) {
-            builder.append(PATH_SEPARATOR).append(o.getValue());
-        }
-        Resource resource = resourcePatternResolver.getResource(builder.toString());
+        String path = template.expand(configParams).toString();
+        Resource resource = resourcePatternResolver.getResource(path);
         return resource;
     }
 

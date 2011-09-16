@@ -6,29 +6,44 @@ import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.springframework.web.util.UriTemplate;
 import ws.antonov.config.api.consumer.ConfigParamsBuilder;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  */
 public class HttpConfigProvider extends AbstractConfigProvider{
-  private String baseUrl;
   private HttpClient httpClient;
+  private UriTemplate template;
 
   private static final String CONTENT_TYPE = "Content-Type";
 
-  public HttpConfigProvider(String baseUrl, HttpClient httpClient) {
-    super(null);
-    this.baseUrl = baseUrl;
-    this.httpClient = httpClient;
+    /**
+     * The <code>baseUrl</code> will be joined with <code>pattern</code> to produce a full Uri Template for interpretation
+     *
+     * @param baseUrl - base url of the config repository
+     * @param pattern - config pattern in the form of {name} for variable replacement to be used in <class>UriTemplate</class>
+     * @param httpClient - underlying Http Client to be used to make the resource request retrievals
+     * @see UriTemplate
+     */
+  public HttpConfigProvider(String baseUrl, String pattern, HttpClient httpClient) {
+    this(baseUrl, pattern, httpClient, null);
   }
 
-  public HttpConfigProvider(String baseUrl, HttpClient httpClient, ExtensionRegistry registry) {
+    /**
+     * The <code>baseUrl</code> will be joined with <code>pattern</code> to produce a full Uri Template for interpretation
+     *
+     * @param baseUrl - base url of the config repository
+     * @param pattern - config pattern in the form of {name} for variable replacement to be used in <class>UriTemplate</class>
+     * @param httpClient - underlying Http Client to be used to make the resource request retrievals
+     * @param registry - extension registry with protobuf extensions
+     * @see UriTemplate
+     */
+  public HttpConfigProvider(String baseUrl, String pattern, HttpClient httpClient, ExtensionRegistry registry) {
     super(registry);
-    this.baseUrl = baseUrl;
     this.httpClient = httpClient;
+    this.template = new UriTemplate(baseUrl + pattern);
   }
 
   @Override
@@ -48,11 +63,7 @@ public class HttpConfigProvider extends AbstractConfigProvider{
   }
 
   public String computeUrlDestinationFromParams(ConfigParamsBuilder.ConfigParamMap configParams) {
-        StringBuilder builder = new StringBuilder(this.baseUrl);
-        for (Map.Entry<String, Object> o : configParams.entrySet()) {
-            builder.append("/").append(o.getValue());
-        }
-        return builder.toString();
+        return template.expand(configParams).toString();
   }
 
   protected ContentType determineContentType(HttpMethod getMethod) throws IOException {

@@ -34,7 +34,8 @@ public class ConfigClientTest extends TestCase {
     }
 
     public void testFileConfigConsumptionWithBinary() throws Exception {
-        ConfigClient client = new ProviderBasedConfigClient(new ResourceConfigProvider());
+        ConfigClient client = new ProviderBasedConfigClient(
+                new ResourceConfigProvider("file://" + System.getProperty("user.dir", "."), "/{file}"));
         FlatConfigObject config = client.getConfig(FlatConfigObject.class,
                 ConfigParamsBuilder.newInstance("file", "build/classes/test/config.pb").build());
         assertEquals(config.getTimeout(), 10);
@@ -43,7 +44,8 @@ public class ConfigClientTest extends TestCase {
     }
 
     public void testFileConfigConsumptionWithXml() throws Exception {
-        ConfigClient client = new ProviderBasedConfigClient(new ResourceConfigProvider());
+        ConfigClient client = new ProviderBasedConfigClient(
+                new ResourceConfigProvider("file://" + System.getProperty("user.dir", "."), "/{file}"));
         FlatConfigObject config = client.getConfig(FlatConfigObject.class,
                 ConfigParamsBuilder.newInstance("file", "build/classes/test/config.xml").build());
         assertEquals(config.getTimeout(), 10);
@@ -52,7 +54,8 @@ public class ConfigClientTest extends TestCase {
     }
 
     public void testFileConfigConsumptionWithJson() throws Exception {
-        ConfigClient client = new ProviderBasedConfigClient(new ResourceConfigProvider());
+        ConfigClient client = new ProviderBasedConfigClient(
+                new ResourceConfigProvider("file://" + System.getProperty("user.dir", "."), "/{file}"));
         FlatConfigObject config = client.getConfig(FlatConfigObject.class,
                 ConfigParamsBuilder.newInstance("file", "build/classes/test/config.json").build());
         assertEquals(config.getTimeout(), 10);
@@ -61,7 +64,8 @@ public class ConfigClientTest extends TestCase {
     }
 
     public void testFileConfigConsumptionWithProps() throws Exception {
-        ConfigClient client = new ProviderBasedConfigClient(new ResourceConfigProvider());
+        ConfigClient client = new ProviderBasedConfigClient(
+                new ResourceConfigProvider("file://" + System.getProperty("user.dir", "."), "/{file}"));
         FlatConfigObject config = client.getConfig(FlatConfigObject.class,
                 ConfigParamsBuilder.newInstance("file", "build/classes/test/config.properties").build());
         assertEquals(config.getTimeout(), 10);
@@ -77,10 +81,11 @@ public class ConfigClientTest extends TestCase {
         method.data = json.getInputStream();
 
         ConfigClient client = new ProviderBasedConfigClient(
-                new HttpConfigProvider("http://domain:port/config/", httpClient) {
+                new HttpConfigProvider("http://domain:port/config/", "{path}", httpClient) {
                     @Override
                     protected HttpMethod createHttpMethod(String url) {
-                      return method;
+                        assertEquals(url, "http://domain:port/config/bf4919676664810d86479e997c4b86a5");
+                        return method;
                     }
                 });
       
@@ -92,7 +97,8 @@ public class ConfigClientTest extends TestCase {
     }
 
     public void testInvocationHandlerConsumption() throws Exception {
-        ConfigClient client = new ProviderBasedConfigClient(new ResourceConfigProvider());
+        ConfigClient client = new ProviderBasedConfigClient(
+                new ResourceConfigProvider("file://" + System.getProperty("user.dir", "."), "/{domain}/{path}"));
         ConfigClientFactoryBean<FlatConfigService> bean =
                 new ConfigClientFactoryBean<FlatConfigService>(FlatConfigService.class, client);
         bean.afterPropertiesSet();
