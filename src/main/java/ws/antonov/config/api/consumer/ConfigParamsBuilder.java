@@ -1,22 +1,23 @@
 package ws.antonov.config.api.consumer;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author aantonov
  * Created On Oct 20, 2010
  */
 public final class ConfigParamsBuilder {
-    private List<ConfigParamEntry> params = new LinkedList<ConfigParamEntry>();
+    private ConfigParamMap params = new ConfigParamMap();
 
     public ConfigParamsBuilder(){}
 
     public ConfigParamsBuilder(String key, Object value) {
-        params.add(new ConfigParamEntry(key, value));
+        params.put(key, value);
     }
 
     public ConfigParamsBuilder addParam(String key, Object value) {
-        params.add(new ConfigParamEntry(key, value));
+        params.put(key, value);
         return this;
     }
 
@@ -28,28 +29,67 @@ public final class ConfigParamsBuilder {
         return new ConfigParamsBuilder(key, value);
     }
 
-    public List<ConfigParamEntry> build() {
-        List<ConfigParamEntry> mapToReturn = Collections.unmodifiableList(params);
-        params = new LinkedList<ConfigParamEntry>();
+    public ConfigParamMap build() {
+        ConfigParamMap mapToReturn = params;
+        mapToReturn.sealMap();
+        params = new ConfigParamMap();
         return mapToReturn;
     }
 
+    public class ConfigParamMap extends LinkedHashMap<String, Object> {
+        private boolean sealed = false;
 
-    public class ConfigParamEntry {
-        private String key;
-        private Object value;
-
-        private ConfigParamEntry(String key, Object value) {
-            this.key = key;
-            this.value = value;
+        void sealMap() {
+            sealed = true;
         }
 
-        public String getKey() {
-            return key;
+        @Override
+        public Object put(String s, Object o) {
+            if (!sealed) {
+                return super.put(s, o);
+            } else {
+                throw createException();
+            }
         }
 
-        public Object getValue() {
-            return value;
+        @Override
+        public void putAll(Map<? extends String, ? extends Object> map) {
+            if (!sealed) {
+                super.putAll(map);
+            } else {
+                throw createException();
+            }
+        }
+
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<String, Object> stringObjectEntry) {
+            if (!sealed) {
+                return super.removeEldestEntry(stringObjectEntry);
+            } else {
+                throw createException();
+            }
+        }
+
+        @Override
+        public Object remove(Object o) {
+            if (!sealed) {
+                return super.remove(o);
+            } else {
+                throw createException();
+            }
+        }
+
+        @Override
+        public void clear() {
+            if (!sealed) {
+                super.clear();
+            } else {
+                throw createException();
+            }
+        }
+
+        private UnsupportedOperationException createException() {
+            return new UnsupportedOperationException("The ConfigParamMap is sealed and can not be modified");
         }
     }
 }

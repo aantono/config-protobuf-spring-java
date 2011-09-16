@@ -1,12 +1,9 @@
 package ws.antonov.config.consumer;
 
+import com.google.protobuf.Message;
 import ws.antonov.config.api.consumer.ConfigClient;
 import ws.antonov.config.api.consumer.ConfigParamsBuilder;
 import ws.antonov.config.api.provider.ConfigProvider;
-
-import java.util.List;
-
-import com.google.protobuf.Message;
 
 /**
  * @author aantonov
@@ -19,7 +16,7 @@ public class ProviderBasedConfigClient implements ConfigClient {
         this.provider = provider;
     }
 
-    public <U extends com.google.protobuf.Message> U getConfig(Class<U> configClass, List<ConfigParamsBuilder.ConfigParamEntry> configParams) {
+    public <U extends com.google.protobuf.Message> U getConfig(Class<U> configClass, ConfigParamsBuilder.ConfigParamMap configParams) {
         try {
             Message.Builder builder = getConfigProvider().retrieveConfigData(configClass, configParams);
             return (U) builder.build();

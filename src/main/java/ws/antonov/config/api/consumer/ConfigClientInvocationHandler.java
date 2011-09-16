@@ -8,7 +8,6 @@ import org.springframework.util.Assert;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * @author aantonov
@@ -23,12 +22,12 @@ public class ConfigClientInvocationHandler implements InvocationHandler {
     }
 
     public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
-        List<ConfigParamsBuilder.ConfigParamEntry> configParams = generateConfigParams(method, objects);
+        ConfigParamsBuilder.ConfigParamMap configParams = generateConfigParams(method, objects);
         Assert.isAssignable(Message.class, method.getReturnType());
         return configClient.getConfig((Class<Message>) method.getReturnType(), configParams);
     }
 
-    private List<ConfigParamsBuilder.ConfigParamEntry> generateConfigParams(Method method,
+    private ConfigParamsBuilder.ConfigParamMap generateConfigParams(Method method,
                                                                             Object[] args) {
         ConfigParam[] configParamAnnotations = retrieveRequestParams(method);
         String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);

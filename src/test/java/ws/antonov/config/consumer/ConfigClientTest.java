@@ -4,10 +4,9 @@ import junit.framework.TestCase;
 import org.apache.commons.httpclient.HttpMethod;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import ws.antonov.config.api.consumer.ConfigClientFactoryBean;
-import ws.antonov.config.api.consumer.ConfigClientInvocationHandler;
-import ws.antonov.config.api.consumer.ConfigParamsBuilder;
 import ws.antonov.config.api.consumer.ConfigClient;
+import ws.antonov.config.api.consumer.ConfigClientFactoryBean;
+import ws.antonov.config.api.consumer.ConfigParamsBuilder;
 import ws.antonov.config.consumer.mock.MockHttpClient;
 import ws.antonov.config.consumer.mock.MockHttpMethod;
 import ws.antonov.config.provider.HttpConfigProvider;
@@ -16,7 +15,6 @@ import ws.antonov.config.test.proto.model.FlatConfigObject;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Proxy;
 
 /**
  * @author aantonov
@@ -39,6 +37,15 @@ public class ConfigClientTest extends TestCase {
         ConfigClient client = new ProviderBasedConfigClient(new ResourceConfigProvider());
         FlatConfigObject config = client.getConfig(FlatConfigObject.class,
                 ConfigParamsBuilder.newInstance("file", "build/classes/test/config.pb").build());
+        assertEquals(config.getTimeout(), 10);
+        assertEquals(config.getValidate(), false);
+        assertEquals(config.getSystemCode(), "101");
+    }
+
+    public void testFileConfigConsumptionWithXml() throws Exception {
+        ConfigClient client = new ProviderBasedConfigClient(new ResourceConfigProvider());
+        FlatConfigObject config = client.getConfig(FlatConfigObject.class,
+                ConfigParamsBuilder.newInstance("file", "build/classes/test/config.xml").build());
         assertEquals(config.getTimeout(), 10);
         assertEquals(config.getValidate(), false);
         assertEquals(config.getSystemCode(), "101");

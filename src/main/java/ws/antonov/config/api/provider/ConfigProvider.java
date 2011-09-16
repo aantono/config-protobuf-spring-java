@@ -1,11 +1,9 @@
 package ws.antonov.config.api.provider;
 
+import com.google.protobuf.Message;
 import ws.antonov.config.api.consumer.ConfigParamsBuilder;
 
 import java.io.IOException;
-import java.util.List;
-
-import com.google.protobuf.Message;
 
 /**
  * @author aantonov
@@ -13,5 +11,5 @@ import com.google.protobuf.Message;
  */
 public interface ConfigProvider {
     public Message.Builder retrieveConfigData(Class<? extends Message> configClass,
-                                              List<ConfigParamsBuilder.ConfigParamEntry> configParams) throws IOException;
+                                              ConfigParamsBuilder.ConfigParamMap configParams) throws IOException;
 }

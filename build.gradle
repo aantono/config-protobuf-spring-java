@@ -17,7 +17,7 @@ httpPort = 8585
 // local 'lib' directory should have protobuf-format-java-1.2.jar and protobuf-java-2.3.0.jar
 repositories {
   mavenCentral()
-  flatDir name: 'localRepository', dirs: 'lib'
+  //flatDir name: 'localRepository', dirs: 'lib'
 }
 
 configurations {
@@ -30,7 +30,7 @@ configurations {
 
 dependencies {
   compile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
-  compile group: 'com.google.protobuf', name: 'protobuf-java', version: '2.3.0'
+  compile group: 'com.google.protobuf', name: 'protobuf-java', version: '2.4.1'
   compile group: 'com.googlecode.protobuf-java-format', name: 'protobuf-java-format', version: '1.2'
   compile group: 'org.springframework', name: 'spring-core', version: '3.0.2.RELEASE'
   compile group: 'org.springframework', name: 'spring-asm', version: '3.0.2.RELEASE'

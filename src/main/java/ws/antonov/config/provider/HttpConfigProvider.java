@@ -9,7 +9,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import ws.antonov.config.api.consumer.ConfigParamsBuilder;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 /**
  */
@@ -33,7 +33,7 @@ public class HttpConfigProvider extends AbstractConfigProvider{
 
   @Override
   public Message.Builder retrieveConfigData(Class<? extends Message> configClass,
-                                            List<ConfigParamsBuilder.ConfigParamEntry> configParams) throws IOException {
+                                            ConfigParamsBuilder.ConfigParamMap configParams) throws IOException {
     try {
       HttpMethod get = createHttpMethod(computeUrlDestinationFromParams(configParams));
       int result = httpClient.executeMethod(get);
@@ -47,9 +47,9 @@ public class HttpConfigProvider extends AbstractConfigProvider{
     }
   }
 
-  public String computeUrlDestinationFromParams(List<ConfigParamsBuilder.ConfigParamEntry> configParams) {
+  public String computeUrlDestinationFromParams(ConfigParamsBuilder.ConfigParamMap configParams) {
         StringBuilder builder = new StringBuilder(this.baseUrl);
-        for (ConfigParamsBuilder.ConfigParamEntry o : configParams) {
+        for (Map.Entry<String, Object> o : configParams.entrySet()) {
             builder.append("/").append(o.getValue());
         }
         return builder.toString();

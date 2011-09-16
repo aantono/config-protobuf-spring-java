@@ -1,17 +1,14 @@
 package ws.antonov.config.provider;
 
-import com.google.protobuf.Message;
 import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.Message;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import ws.antonov.config.api.consumer.ConfigParamsBuilder;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
-
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.Resource;
+import java.util.Map;
 
 /**
  * @author aantonov
@@ -36,7 +33,7 @@ public class ResourceConfigProvider extends AbstractConfigProvider {
         this.basePath = basePath;
     }
 
-    public Message.Builder retrieveConfigData(Class<? extends Message> configClass, List<ConfigParamsBuilder.ConfigParamEntry> configParams) throws IOException {
+    public Message.Builder retrieveConfigData(Class<? extends Message> configClass, ConfigParamsBuilder.ConfigParamMap configParams) throws IOException {
         Resource resource = computeResourceDestinationFromParams(configParams);
         try {
             return convertMessage(configClass, determineContentType(resource), resource.getInputStream());
@@ -60,9 +57,9 @@ public class ResourceConfigProvider extends AbstractConfigProvider {
             return ContentType.PROTOBUF;
     }
 
-    public Resource computeResourceDestinationFromParams(List<ConfigParamsBuilder.ConfigParamEntry> configParams) {
+    public Resource computeResourceDestinationFromParams(ConfigParamsBuilder.ConfigParamMap configParams) {
         StringBuilder builder = new StringBuilder(this.basePath);
-        for (ConfigParamsBuilder.ConfigParamEntry o : configParams) {
+        for (Map.Entry<String, Object> o : configParams.entrySet()) {
             builder.append(PATH_SEPARATOR).append(o.getValue());
         }
         Resource resource = resourcePatternResolver.getResource(builder.toString());
