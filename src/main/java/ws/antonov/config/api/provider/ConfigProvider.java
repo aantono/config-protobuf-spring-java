@@ -11,5 +11,5 @@ import java.io.IOException;
  */
 public interface ConfigProvider {
     public Message.Builder retrieveConfigData(Class<? extends Message> configClass,
-                                              ConfigParamsBuilder.ConfigParamMap configParams) throws IOException;
+                                              ConfigParamsBuilder.ConfigParamsMap configParams) throws IOException;
 }

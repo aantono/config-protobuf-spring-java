@@ -48,7 +48,7 @@ public class HttpConfigProvider extends AbstractConfigProvider{
 
   @Override
   public Message.Builder retrieveConfigData(Class<? extends Message> configClass,
-                                            ConfigParamsBuilder.ConfigParamMap configParams) throws IOException {
+                                            ConfigParamsBuilder.ConfigParamsMap configParams) throws IOException {
     try {
       HttpMethod get = createHttpMethod(computeUrlDestinationFromParams(configParams));
       int result = httpClient.executeMethod(get);
@@ -62,7 +62,7 @@ public class HttpConfigProvider extends AbstractConfigProvider{
     }
   }
 
-  public String computeUrlDestinationFromParams(ConfigParamsBuilder.ConfigParamMap configParams) {
+  public String computeUrlDestinationFromParams(ConfigParamsBuilder.ConfigParamsMap configParams) {
         return template.expand(configParams).toString();
   }
 

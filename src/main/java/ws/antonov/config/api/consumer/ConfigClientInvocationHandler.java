@@ -22,12 +22,12 @@ public class ConfigClientInvocationHandler implements InvocationHandler {
     }
 
     public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
-        ConfigParamsBuilder.ConfigParamMap configParams = generateConfigParams(method, objects);
+        ConfigParamsBuilder.ConfigParamsMap configParams = generateConfigParams(method, objects);
         Assert.isAssignable(Message.class, method.getReturnType());
         return configClient.getConfig((Class<Message>) method.getReturnType(), configParams);
     }
 
-    private ConfigParamsBuilder.ConfigParamMap generateConfigParams(Method method,
+    private ConfigParamsBuilder.ConfigParamsMap generateConfigParams(Method method,
                                                                             Object[] args) {
         ConfigParam[] configParamAnnotations = retrieveRequestParams(method);
         String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);

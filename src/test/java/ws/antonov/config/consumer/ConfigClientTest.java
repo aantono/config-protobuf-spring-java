@@ -126,7 +126,7 @@ public class ConfigClientTest extends TestCase {
         final AtomicInteger accessCount = new AtomicInteger(0);
         ConfigClient client = new ConfigClient() {
             @Override
-            public Message getConfig(Class configClass, ConfigParamsBuilder.ConfigParamMap configParams) {
+            public Message getConfig(Class configClass, ConfigParamsBuilder.ConfigParamsMap configParams) {
                 accessCount.incrementAndGet();
                 if (configParams.size() == 0)
                     return msg;

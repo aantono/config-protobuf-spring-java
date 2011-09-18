@@ -39,7 +39,7 @@ public class ResourceConfigProvider extends AbstractConfigProvider {
         this.template = new UriTemplate(basePath + pattern);
     }
 
-    public Message.Builder retrieveConfigData(Class<? extends Message> configClass, ConfigParamsBuilder.ConfigParamMap configParams) throws IOException {
+    public Message.Builder retrieveConfigData(Class<? extends Message> configClass, ConfigParamsBuilder.ConfigParamsMap configParams) throws IOException {
         Resource resource = computeResourceDestinationFromParams(configParams);
         try {
             return convertMessage(configClass, determineContentType(resource), resource.getInputStream());
@@ -63,7 +63,7 @@ public class ResourceConfigProvider extends AbstractConfigProvider {
             return ContentType.PROTOBUF;
     }
 
-    public Resource computeResourceDestinationFromParams(ConfigParamsBuilder.ConfigParamMap configParams) {
+    public Resource computeResourceDestinationFromParams(ConfigParamsBuilder.ConfigParamsMap configParams) {
         String path = template.expand(configParams).toString();
         Resource resource = resourcePatternResolver.getResource(path);
         return resource;

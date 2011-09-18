@@ -8,7 +8,7 @@ import java.util.Map;
  * Created On Oct 20, 2010
  */
 public final class ConfigParamsBuilder {
-    private ConfigParamMap params = new ConfigParamMap();
+    private ConfigParamsMap params = new ConfigParamsMap();
 
     public ConfigParamsBuilder(){}
 
@@ -29,14 +29,14 @@ public final class ConfigParamsBuilder {
         return new ConfigParamsBuilder(key, value);
     }
 
-    public ConfigParamMap build() {
-        ConfigParamMap mapToReturn = params;
+    public ConfigParamsMap build() {
+        ConfigParamsMap mapToReturn = params;
         mapToReturn.sealMap();
-        params = new ConfigParamMap();
+        params = new ConfigParamsMap();
         return mapToReturn;
     }
 
-    public class ConfigParamMap extends LinkedHashMap<String, Object> {
+    public class ConfigParamsMap extends LinkedHashMap<String, Object> {
         private boolean sealed = false;
 
         void sealMap() {
@@ -89,7 +89,7 @@ public final class ConfigParamsBuilder {
         }
 
         private UnsupportedOperationException createException() {
-            return new UnsupportedOperationException("The ConfigParamMap is sealed and can not be modified");
+            return new UnsupportedOperationException("The ConfigParamsMap is sealed and can not be modified");
         }
     }
 }

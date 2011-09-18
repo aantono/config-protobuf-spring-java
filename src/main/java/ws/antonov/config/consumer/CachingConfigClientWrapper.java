@@ -29,7 +29,7 @@ public class CachingConfigClientWrapper implements ConfigClient {
 
     @SuppressWarnings({"unchecked"})
     @Override
-    public <U extends Message> U getConfig(Class<U> configClass, ConfigParamsBuilder.ConfigParamMap configParams) {
+    public <U extends Message> U getConfig(Class<U> configClass, ConfigParamsBuilder.ConfigParamsMap configParams) {
         CacheKey key = new CacheKey(configClass, configParams);
         Message data = objectCache.get(key);
         if (data == null) {
@@ -75,9 +75,9 @@ public class CachingConfigClientWrapper implements ConfigClient {
 
     public class CacheKey {
         private Class configClass;
-        private ConfigParamsBuilder.ConfigParamMap configParams;
+        private ConfigParamsBuilder.ConfigParamsMap configParams;
 
-        public CacheKey(Class configClass, ConfigParamsBuilder.ConfigParamMap configParams) {
+        public CacheKey(Class configClass, ConfigParamsBuilder.ConfigParamsMap configParams) {
             this.configClass = configClass;
             this.configParams = configParams;
         }

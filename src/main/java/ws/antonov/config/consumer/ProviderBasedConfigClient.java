@@ -16,7 +16,7 @@ public class ProviderBasedConfigClient implements ConfigClient {
         this.provider = provider;
     }
 
-    public <U extends com.google.protobuf.Message> U getConfig(Class<U> configClass, ConfigParamsBuilder.ConfigParamMap configParams) {
+    public <U extends com.google.protobuf.Message> U getConfig(Class<U> configClass, ConfigParamsBuilder.ConfigParamsMap configParams) {
         try {
             Message.Builder builder = getConfigProvider().retrieveConfigData(configClass, configParams);
             return (U) builder.build();
