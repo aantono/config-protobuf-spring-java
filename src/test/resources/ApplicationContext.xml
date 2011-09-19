@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"/>
+
+    <bean id="configProvider" class="ws.antonov.config.provider.ResourceConfigProvider">
+        <constructor-arg value="file://${user.dir}"/> <!-- Base Dir -->
+        <constructor-arg value="/{domain}/{path}"/> <!-- ConfigParam name matching pattern -->
+    </bean>
+
+    <bean id="configClient" class="ws.antonov.config.consumer.ProviderBasedConfigClient">
+        <constructor-arg ref="configProvider"/>
+    </bean>
+
+    <bean id="configService" class="ws.antonov.config.api.consumer.ConfigClientFactoryBean">
+        <constructor-arg value="ws.antonov.config.consumer.FlatConfigService"/>
+        <constructor-arg ref="configClient"/>
+    </bean>
+</beans>

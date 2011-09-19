@@ -3,6 +3,7 @@ package ws.antonov.config.consumer;
 import com.google.protobuf.Message;
 import junit.framework.TestCase;
 import org.apache.commons.httpclient.HttpMethod;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import ws.antonov.config.api.consumer.ConfigClient;
@@ -170,5 +171,18 @@ public class ConfigClientTest extends TestCase {
         assertEquals(2, accessCount.get());
         assertEquals(1, cachingConfig.getObjectCache().size());
         assertEquals(1, cachingConfig.getNegativeCache().size());
+    }
+
+    public void testSpring() throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        context.refresh();
+
+        FlatConfigService service = context.getBean(FlatConfigService.class);
+
+        FlatConfigObject config = service.getConfig("build/classes", "test/config.properties");
+
+        assertEquals(config.getTimeout(), 10);
+        assertEquals(config.getValidate(), false);
+        assertEquals(config.getSystemCode(), "101");
     }
 }
