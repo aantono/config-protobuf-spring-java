@@ -26,6 +26,8 @@ buildscript {
         classpath 'de.huxhorn.gradle:de.huxhorn.gradle.pgp-plugin:0.0.3'
         classpath 'ws.antonov.gradle.plugins:gradle-plugin-protobuf:0.4'
     }
+    def githubBase = 'https://github.com/valkolovos/gradle_cobertura/raw/master/ivy'
+    apply from: "${githubBase}/gradle_cobertura/gradle_cobertura/1.0-rc4/coberturainit.gradle"
 }
 
 // local 'lib' directory should have protobuf-format-java-1.2.jar and protobuf-java-2.3.0.jar
