@@ -109,4 +109,5 @@ FlatConfigObject config = service.getConfig("build/classes", "test/config.proper
 ```
 
 Of course, in your real application you would not couple the underlying file storage/location with the business logic, so the parameters you would pass in into the config service would be something along the lines of a business domain ('search', 'purchase', etc), or let's say a Locale ('en_US') as a separator.  The rest of the path would be hard-coded in your Spring file: `/config_files/{locale}/{domain}.properties`.
+
 One other ability is to provide your own facade around the `ConfigProvider` which would add some implicit _config param_ values to the map, things like application id (if one exists) or a machine IP, or anything that can be passed in as a -D start-up property.
