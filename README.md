@@ -25,6 +25,7 @@ For the Spring users (which you all should be) a `ConfigClientFactoryBean` is pr
 Let's imagine that we have the following Protocol Buffers definition for our config data model:
 
 `config.proto`
+
 ```proto
 package test.config;
 
@@ -41,7 +42,9 @@ message FlatConfigObject {
 }
 ```
 as well as the following _config interface_ defined:
-`FlatConfigService`
+
+`FlatConfigService.java`
+
 ```java
 package ws.antonov.config.consumer;
 
@@ -57,12 +60,15 @@ public interface FlatConfigService {
 ```
 
 The definition of your Spring _ApplicationContext.xml_ would be:
+
 `ApplicationContext.xml`
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"/>
 
