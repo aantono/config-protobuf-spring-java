@@ -16,7 +16,7 @@ The default implementation of `ConfigClient` provided by this framework is the `
 `ConfigProvider` interface is geared to provide the abstraction and a separation from the config consumption and the actual retrieval of config data.
 
 #### ResourceConfigProvider
-Provides functionality to load config files out of Spring's `[Resource](http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/core/io/Resource.html)` class, which usually represents any file system or a classpath resource.  It uses file type extension to infer content type. i.e. .xml => XML, .json => JSON, etc.
+Provides functionality to load config files out of Spring's [Resource](http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/core/io/Resource.html) class, which usually represents any file system or a classpath resource.  It uses file type extension to infer content type. i.e. .xml => XML, .json => JSON, etc.
 
 #### HttpConfigProvider
 Uses Apache HttpClient to retrieve the config resources from any HTTP/S endpoint.
@@ -117,6 +117,6 @@ FlatConfigService service = context.getBean(FlatConfigService.class);
 FlatConfigObject config = service.getConfig("build/classes", "test/config.properties");
 ```
 
-Of course, in your real application you would not couple the underlying file storage/location with the business logic, so the parameters you would pass in into the config service would be something along the lines of a business domain ('search', 'purchase', etc), or let's say a Locale ('en_US') as a separator.  The rest of the path would be hard-coded in your Spring file: `/config_files/{locale}/{domain}.properties`.  The pattern resolution is handled by Spring's `[UriTemplate](http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/web/util/UriTemplate.html)`.
+Of course, in your real application you would not couple the underlying file storage/location with the business logic, so the parameters you would pass in into the config service would be something along the lines of a business domain ('search', 'purchase', etc), or let's say a Locale ('en_US') as a separator.  The rest of the path would be hard-coded in your Spring file: `/config_files/{locale}/{domain}.properties`.  The pattern resolution is handled by Spring's [UriTemplate](http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/web/util/UriTemplate.html).
 
 One other ability is to provide your own facade around the `ConfigProvider` which would add some implicit _config param_ values to the map, things like application id (if one exists) or a machine IP, or anything that can be passed in as a -D start-up property.
