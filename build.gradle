@@ -105,8 +105,8 @@ uploadArchives {
         url "https://github.com/aantono/config-protobuf-spring-java"
         licenses {
           license {
-            name "New BSD License"
-            url "http://www.opensource.org/licenses/bsd-license.php"
+            name "Apache License, Version 2.0"
+            url "http://www.opensource.org/licenses/Apache-2.0"
           }
         }
         developers {
