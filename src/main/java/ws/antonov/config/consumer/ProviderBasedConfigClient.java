@@ -41,4 +41,8 @@ public class ProviderBasedConfigClient implements ConfigClient {
     public ConfigProvider getConfigProvider() {
         return provider;
     }
+
+    public boolean reloadConfig() {
+        return getConfigProvider().reloadConfigData();
+    }
 }

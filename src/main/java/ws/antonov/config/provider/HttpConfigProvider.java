@@ -77,8 +77,13 @@ public class HttpConfigProvider extends AbstractConfigProvider{
     }
   }
 
+  @Override
+  public boolean reloadConfigData() {
+    return true;
+  }
+
   public String computeUrlDestinationFromParams(ConfigParamsBuilder.ConfigParamsMap configParams) {
-        return template.expand(configParams).toString();
+      return template.expand(configParams).toString();
   }
 
   protected ContentType determineContentType(HttpMethod getMethod) throws IOException {

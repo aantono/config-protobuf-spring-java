@@ -63,6 +63,10 @@ public class ResourceConfigProvider extends AbstractConfigProvider {
         }
     }
 
+    public boolean reloadConfigData() {
+        return true;
+    }
+
     protected ContentType determineContentType(Resource configFile) throws IOException {
         if (configFile.getURL().getPath().endsWith(".xml"))
             return ContentType.XML;

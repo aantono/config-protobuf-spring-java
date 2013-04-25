@@ -23,4 +23,6 @@ public interface ConfigClient {
     public <U extends com.google.protobuf.Message> U getConfig(Class<U> configClass, ConfigParamsBuilder.ConfigParamsMap configParams);
 
     public ConfigProvider getConfigProvider();
+
+    public boolean reloadConfig();
 }

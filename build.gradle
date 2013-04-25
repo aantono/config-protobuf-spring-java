@@ -13,7 +13,7 @@ apply plugin: 'maven'
 apply plugin: ws.antonov.gradle.plugins.protobuf.ProtobufPlugin
 apply plugin: de.huxhorn.gradle.pgp.PgpPlugin
 
-version = '0.1'
+version = '0.2'
 group = 'ws.antonov.config'
 
 buildscript {
@@ -50,7 +50,7 @@ dependencies {
   compile group: 'org.springframework', name: 'spring-asm', version: '3.0.2.RELEASE'
   compile group: 'cglib', name: 'cglib-nodep', version: '2.2.2'
   compile group: 'org.springframework', name: 'spring-webmvc', version: '3.0.2.RELEASE'
-  compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.5.0-M0'
+  compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.1'
   //compile group: 'org.apache.mina', name: 'mina-core', version: '2.0.0-M4'
   compile group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1'
 

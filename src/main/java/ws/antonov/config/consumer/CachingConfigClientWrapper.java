@@ -62,6 +62,11 @@ public class CachingConfigClientWrapper implements ConfigClient {
         return clientDelegate.getConfigProvider();
     }
 
+    public boolean reloadConfig() {
+        this.clearCache();
+        return true;
+    }
+
     public synchronized void clearCache() {
         this.objectCache.clear();
         this.negativeCache.clear();

@@ -152,6 +152,11 @@ public class ConfigClientTest extends TestCase {
             public ConfigProvider getConfigProvider() {
                 return null;
             }
+
+            @Override
+            public boolean reloadConfig() {
+                return true;
+            }
         };
         Map objects = new HashMap();
         Set keys = new HashSet();
